@@ -18,7 +18,14 @@ defmodule Auction.Auction do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:brand, :type, :picture, :min_price, :end_time, :status])
-    |> validate_required([:brand, :type, :picture, :min_price, :end_time, :status])
+    |> cast(params, [:brand, :type, :picture, :min_price, :end_time])
+    |> validate_required([:brand, :type, :picture, :min_price, :end_time])
+    |> init_status
   end
+
+  defp init_status(changeset) do
+    changeset
+    |> put_change(:status, "started")
+  end
+
 end
