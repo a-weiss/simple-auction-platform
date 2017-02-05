@@ -1,0 +1,6 @@
+<h2>New bid</h2>
+
+<%= render "form.html", changeset: @changeset,
+                        action: user_bid_path(@conn, :create, @user) %>
+
+<%= link "Back", to: user_bid_path(@conn, :index, @user) %>

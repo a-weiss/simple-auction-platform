@@ -1,0 +1,28 @@
+<h2>Listing bids</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Amount</th>
+      <th>User</th>
+      <th>Auction</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for bid <- @bids do %>
+    <tr>
+      <td><%= bid.amount %></td>
+      <td><%= bid.user_id %></td>
+      <td><%= bid.auction_id %></td>
+
+      <td class="text-right">
+        <%= link "Show", to: user_bid_path(@conn, :show, @user, bid), class: "btn btn-default btn-xs" %>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<%= link "New bid", to: user_bid_path(@conn, :new, @user) %>

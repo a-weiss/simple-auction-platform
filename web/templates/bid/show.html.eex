@@ -1,0 +1,22 @@
+<h2>Show bid</h2>
+
+<ul>
+
+  <li>
+    <strong>Amount:</strong>
+    <%= @bid.amount %>
+  </li>
+
+  <li>
+    <strong>User:</strong>
+    <%= @bid.user_id %>
+  </li>
+
+  <li>
+    <strong>Auction:</strong>
+    <%= @bid.auction_id %>
+  </li>
+
+</ul>
+
+<%= link "Back", to: user_bid_path(@conn, :index, @user) %>
