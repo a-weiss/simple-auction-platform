@@ -1,0 +1,43 @@
+<h2>Show auction</h2>
+
+<ul>
+
+  <li>
+    <strong>Brand:</strong>
+    <%= @auction.brand %>
+  </li>
+
+  <li>
+    <strong>Type:</strong>
+    <%= @auction.type %>
+  </li>
+
+  <li>
+    <strong>Picture:</strong>
+    <%= @auction.picture %>
+  </li>
+
+  <li>
+    <strong>Min price:</strong>
+    <%= @auction.min_price %>
+  </li>
+
+  <li>
+    <strong>End time:</strong>
+    <%= @auction.end_time %>
+  </li>
+
+  <li>
+    <strong>User:</strong>
+    <%= @auction.user_id %>
+  </li>
+
+  <li>
+    <strong>Status:</strong>
+    <%= @auction.status %>
+  </li>
+
+</ul>
+
+<%= link "Edit", to: auction_path(@conn, :edit, @auction) %>
+<%= link "Back", to: auction_path(@conn, :index) %>

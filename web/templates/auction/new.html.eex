@@ -1,0 +1,6 @@
+<h2>New auction</h2>
+
+<%= render "form.html", changeset: @changeset,
+                        action: auction_path(@conn, :create) %>
+
+<%= link "Back", to: auction_path(@conn, :index) %>

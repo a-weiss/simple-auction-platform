@@ -19,6 +19,7 @@ defmodule Auction.Router do
     get "/", PageController, :index
     resources "/users", UserController
     resources "/sessions", SessionController, only: [:new, :create, :delete]
+    resources "/auctions", AuctionController
   end
 
   # Other scopes may use custom stacks.
