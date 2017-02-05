@@ -14,6 +14,7 @@ defmodule Auction.User do
     field :password_confirmation, :string, virtual: true
 
     has_many :auctions, Auction.Auction
+    has_many :bids, Auction.Bid
   end
 
 

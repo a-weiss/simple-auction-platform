@@ -29,8 +29,8 @@
           </ul>
         </nav>
         <!--<span class="logo"></span>-->
-        <h1>Logo</h1>
-        <div>Simple auction page</div>
+        <h1>Simple auction page</h1>
+        <div>Demo app</div>
       </header>
 
       <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>

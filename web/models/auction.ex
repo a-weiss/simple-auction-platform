@@ -9,6 +9,7 @@ defmodule Auction.Auction do
     field :end_time, Ecto.DateTime
     field :status, :string
     belongs_to :user, Auction.User
+    has_many :bids, Auction.Bid
 
     timestamps()
   end

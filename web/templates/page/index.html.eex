@@ -1,36 +1,30 @@
 <div class="jumbotron">
-  <h2><%= gettext "Welcome to %{name}", name: "Phoenix!" %></h2>
-  <p class="lead">A productive web framework that<br />does not compromise speed and maintainability.</p>
+  <h2><%= gettext "Welcome to the auction page" %></h2>
+  <p class="lead">A simple demo app that<br />allows to create auctions and bid on them.</p>
 </div>
 
 <div class="row marketing">
-  <div class="col-lg-6">
-    <h4>Resources</h4>
-    <ul>
-      <li>
-        <a href="http://phoenixframework.org/docs/overview">Guides</a>
-      </li>
-      <li>
-        <a href="https://hexdocs.pm/phoenix">Docs</a>
-      </li>
-      <li>
-        <a href="https://github.com/phoenixframework/phoenix">Source</a>
-      </li>
-    </ul>
-  </div>
 
-  <div class="col-lg-6">
-    <h4>Help</h4>
-    <ul>
-      <li>
-        <a href="http://groups.google.com/group/phoenix-talk">Mailing list</a>
-      </li>
-      <li>
-        <a href="http://webchat.freenode.net/?channels=elixir-lang">#elixir-lang on freenode IRC</a>
-      </li>
-      <li>
-        <a href="https://twitter.com/elixirphoenix">@elixirphoenix</a>
-      </li>
-    </ul>
-  </div>
+  <%= if user = current_user(@conn) do %>
+    <div class="col-lg-6">
+      <h4>Auctions</h4>
+      <ul>
+        <li>
+          <%= link "My auctions", to: user_auction_path(@conn, :index, user.id) %>
+        </li>
+      </ul>
+    </div>
+
+    <div class="col-lg-6">
+      <h4>Bids</h4>
+      <ul>
+        <li>
+          <%= link "My bids", to: user_bid_path(@conn, :index, user.id) %>
+        </li>
+      </ul>
+    </div>
+  <% else %>
+    <%= link "Register", to: user_path(@conn, :new) %>
+  <% end %>
+
 </div>
