@@ -39,5 +39,5 @@
 
 </ul>
 
-<%= link "Edit", to: auction_path(@conn, :edit, @auction) %>
-<%= link "Back", to: auction_path(@conn, :index) %>
+<%= link "Edit", to: user_auction_path(@conn, :edit, @user, @auction) %>
+<%= link "Back", to: user_auction_path(@conn, :index, @user) %>

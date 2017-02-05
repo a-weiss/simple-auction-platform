@@ -17,9 +17,10 @@ defmodule Auction.Router do
     pipe_through :browser # Use the default browser stack
 
     get "/", PageController, :index
-    resources "/users", UserController
+    resources "/users", UserController do
+      resources "/auctions", AuctionController
+    end
     resources "/sessions", SessionController, only: [:new, :create, :delete]
-    resources "/auctions", AuctionController
   end
 
   # Other scopes may use custom stacks.
