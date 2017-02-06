@@ -97,7 +97,7 @@ defmodule Auction.AuctionController do
       conn
     else
       conn
-      |> put_flash(:error, "You are not authorized to modify that post!")
+      |> put_flash(:error, "You are not authorized to modify that bid!")
       |> redirect(to: page_path(conn, :index))
       |> halt()
     end

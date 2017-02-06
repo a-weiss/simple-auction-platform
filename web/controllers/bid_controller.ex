@@ -9,7 +9,7 @@ defmodule Auction.BidController do
 
 
   def index(conn, _params) do
-    bids = Repo.all(Bid)
+    bids = Repo.all(assoc(conn.assigns[:user], :bids))
     render(conn, "index.html", bids: bids)
   end
 
@@ -17,10 +17,19 @@ defmodule Auction.BidController do
     changeset = Bid.changeset(%Bid{})
     render(conn, "new.html", changeset: changeset)
   end
+  def new(conn, _params) do
+    changeset =
+      conn.assigns[:user]
+      |> build_assoc(:bids)
+      |> Bid.changeset()
+    render(conn, "new.html", changeset: changeset)
+  end
 
   def create(conn, %{"bid" => bid_params}) do
-    changeset = Bid.changeset(%Bid{}, bid_params)
-
+    changeset =
+      conn.assigns[:user]
+      |> build_assoc(:bids)
+      |> Bid.changeset(bid_params)
     case Repo.insert(changeset) do
       {:ok, _bid} ->
         conn
@@ -32,7 +41,7 @@ defmodule Auction.BidController do
   end
 
   def show(conn, %{"id" => id}) do
-    bid = Repo.get!(Bid, id)
+    bid = Repo.get!(assoc(conn.assigns[:user], :bids), id)
     render(conn, "show.html", bid: bid)
   end
 
