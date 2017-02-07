@@ -26,7 +26,7 @@
       <td><%= auction.status %></td>
 
       <td class="text-right">
-        <%= link "Show", to: user_auction_path(@conn, :show, @user, auction), class: "btn btn-default btn-xs" %>
+        <%= link "Show", to: auction_path(@conn, :show, auction), class: "btn btn-default btn-xs" %>
         <%= link "Edit", to: user_auction_path(@conn, :edit, @user, auction), class: "btn btn-default btn-xs" %>
         <%= link "Delete", to: user_auction_path(@conn, :delete, @user, auction), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
       </td>

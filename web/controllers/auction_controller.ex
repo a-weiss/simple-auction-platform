@@ -8,7 +8,11 @@ defmodule Auction.AuctionController do
   plug :authorize_user when action in [:new, :create, :update, :edit, :delete]
 
   def index(conn, _params) do
-    auctions = Repo.all(assoc(conn.assigns[:user], :auctions))
+    if conn.params["user_id"] do
+      auctions = Repo.all(assoc(conn.assigns[:user], :auctions))
+    else
+      auctions = Repo.all(Auction)
+    end
     render(conn, "index.html", auctions: auctions)
   end
 
@@ -37,7 +41,7 @@ defmodule Auction.AuctionController do
   end
 
   def show(conn, %{"id" => id}) do
-    auction = Repo.get!(assoc(conn.assigns[:user], :auctions), id)
+    auction = Repo.get!(Auction, id)
     render(conn, "show.html", auction: auction)
   end
 
@@ -80,7 +84,7 @@ defmodule Auction.AuctionController do
           nil  -> invalid_user(conn)
           user -> assign(conn, :user, user)
         end
-      _ -> invalid_user(conn)
+      _ -> assign(conn, :user, Repo.get(User, get_session(conn, :current_user).id))
     end
   end
 
@@ -97,7 +101,7 @@ defmodule Auction.AuctionController do
       conn
     else
       conn
-      |> put_flash(:error, "You are not authorized to modify that bid!")
+      |> put_flash(:error, "You are not authorized to modify that auction!")
       |> redirect(to: page_path(conn, :index))
       |> halt()
     end

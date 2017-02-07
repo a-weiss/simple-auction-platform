@@ -22,6 +22,9 @@ defmodule Auction.Router do
       resources "/bids", BidController, only: [:index, :new, :create, :show]
     end
     resources "/sessions", SessionController, only: [:new, :create, :delete]
+    resources "/auctions", AuctionController do
+      resources "/bids", BidController, only: [:create]
+    end
   end
 
   # Other scopes may use custom stacks.
