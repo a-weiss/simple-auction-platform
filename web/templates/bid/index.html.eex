@@ -18,11 +18,11 @@
       <td><%= bid.auction_id %></td>
 
       <td class="text-right">
-        <%= link "Show", to: user_bid_path(@conn, :show, @user, bid), class: "btn btn-default btn-xs" %>
+        <%= link "Show", to: auction_bid_path(@conn, :show, @auction, bid), class: "btn btn-default btn-xs" %>
       </td>
     </tr>
 <% end %>
   </tbody>
 </table>
 
-<%= link "New bid", to: user_bid_path(@conn, :new, @user) %>
+<%= link "New bid", to: auction_bid_path(@conn, :new, @auction) %>

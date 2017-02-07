@@ -1,25 +1,27 @@
 defmodule Auction.BidController do
+  require Logger
   use Auction.Web, :controller
 
   alias Auction.Bid
   alias Auction.User
 
+  plug :scrub_params, "bid" when action in [:create]
   plug :assign_user
-  plug :authorize_user when action in [:new, :create, :update, :edit, :delete]
+  plug :assign_auction
 
 
   def index(conn, _params) do
-    bids = Repo.all(assoc(conn.assigns[:user], :bids))
+    if conn.params["user_id"] do
+      bids = Repo.all(assoc(conn.assigns[:user], :bids))
+    else
+      bids = Repo.all(assoc(conn.assigns[:auction], :bids))
+    end
     render(conn, "index.html", bids: bids)
   end
 
   def new(conn, _params) do
-    changeset = Bid.changeset(%Bid{})
-    render(conn, "new.html", changeset: changeset)
-  end
-  def new(conn, _params) do
     changeset =
-      conn.assigns[:user]
+      conn.assigns[:auction]
       |> build_assoc(:bids)
       |> Bid.changeset()
     render(conn, "new.html", changeset: changeset)
@@ -27,51 +29,36 @@ defmodule Auction.BidController do
 
   def create(conn, %{"bid" => bid_params}) do
     changeset =
-      conn.assigns[:user]
-      |> build_assoc(:bids)
+      %Bid{user_id: conn.assigns[:user].id, auction_id: conn.assigns[:auction].id}
       |> Bid.changeset(bid_params)
     case Repo.insert(changeset) do
       {:ok, _bid} ->
         conn
         |> put_flash(:info, "Bid created successfully.")
-        |> redirect(to: user_bid_path(conn, :index, conn.assigns[:user]))
+        |> redirect(to: auction_bid_path(conn, :index, conn.assigns[:auction]))
       {:error, changeset} ->
         render(conn, "new.html", changeset: changeset)
     end
   end
 
   def show(conn, %{"id" => id}) do
-    bid = Repo.get!(assoc(conn.assigns[:user], :bids), id)
+    bid = Repo.get!(Bid, id)
     render(conn, "show.html", bid: bid)
   end
 
   defp assign_user(conn, _opts) do
+    user = Repo.get(User, get_session(conn, :current_user).id)
+    assign(conn, :user, user)
+  end
+
+  defp assign_auction(conn, _opts) do
     case conn.params do
-      %{"user_id" => user_id} ->
-        case Repo.get(User, user_id) do
-          nil  -> invalid_user(conn)
-          user -> assign(conn, :user, user)
-        end
-      _ -> invalid_user(conn)
+      %{"auction_id" => auction_id} ->
+        auction = Repo.get(Auction.Auction, auction_id)
+        assign(conn, :auction, auction)
+      _ ->
+        conn
     end
   end
 
-  defp invalid_user(conn) do
-    conn
-    |> put_flash(:error, "Invalid user!")
-    |> redirect(to: page_path(conn, :index))
-    |> halt
-  end
-
-  defp authorize_user(conn, _opts) do
-    user = get_session(conn, :current_user)
-    if user && Integer.to_string(user.id) == conn.params["user_id"] do
-      conn
-    else
-      conn
-      |> put_flash(:error, "You are not authorized to modify that post!")
-      |> redirect(to: page_path(conn, :index))
-      |> halt()
-    end
-  end
 end

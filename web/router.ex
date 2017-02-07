@@ -19,11 +19,11 @@ defmodule Auction.Router do
     get "/", PageController, :index
     resources "/users", UserController do
       resources "/auctions", AuctionController
-      resources "/bids", BidController, only: [:index, :new, :create, :show]
+      resources "/bids", BidController, only: [:index, :show]
     end
     resources "/sessions", SessionController, only: [:new, :create, :delete]
     resources "/auctions", AuctionController do
-      resources "/bids", BidController, only: [:create]
+      resources "/bids", BidController, only: [:index, :new, :create, :show]
     end
   end
 

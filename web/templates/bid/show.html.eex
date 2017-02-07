@@ -19,4 +19,4 @@
 
 </ul>
 
-<%= link "Back", to: user_bid_path(@conn, :index, @user) %>
+<%= link "Back", to: auction_bid_path(@conn, :index, @auction) %>
